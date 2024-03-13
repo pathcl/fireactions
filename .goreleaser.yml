@@ -21,7 +21,7 @@ archives:
 - id: fireactions
   builds:
   - fireactions
-  name_template: fireactions-{{ .Version }}_{{ .Os }}_{{ .Arch }}
+  name_template: fireactions-{{ .Version }}-{{ .Os }}-{{ .Arch }}
   format: tar.gz
 
 dockers:
