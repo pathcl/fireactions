@@ -26,6 +26,7 @@ archives:
 
 dockers:
 - id: fireactions-amd64
+  use: buildx
   dockerfile: Dockerfile
   image_templates:
   - ghcr.io/hostinger/fireactions:{{ .Version }}-amd64
@@ -36,6 +37,7 @@ dockers:
   - "--platform=linux/amd64"
   goarch: amd64
 - id: fireactions-arm64
+  use: buildx
   dockerfile: Dockerfile
   image_templates:
   - ghcr.io/hostinger/fireactions:{{ .Version }}-arm64
@@ -59,3 +61,6 @@ docker_manifests:
 # Changelog is managed by release-please
 changelog:
   disable: true
+
+checksum:
+  name_template: fireactions-v{{ .Version }}-checksums.txt
