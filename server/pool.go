@@ -111,6 +111,8 @@ func (p *Pool) Start() {
 		case <-t.C:
 		}
 
+		metricPoolCurrentRunnersCount.WithLabelValues(p.config.Name).Set(float64(p.GetCurrentSize()))
+
 		if !p.isActive {
 			p.logger.Debug().Msgf("Pool %s is paused, skipping scaling", p.config.Name)
 			continue
@@ -119,8 +121,6 @@ func (p *Pool) Start() {
 		if err := p.Scale(context.Background(), p.config.MinRunners-p.GetCurrentSize()); err != nil {
 			p.logger.Error().Err(err).Msg("Failed to scale pool")
 		}
-
-		metricPoolCurrentRunnersCount.WithLabelValues(p.config.Name).Set(float64(p.GetCurrentSize()))
 	}
 }
 
