@@ -235,7 +235,7 @@ func (p *Pool) scaleUp(ctx context.Context) error {
 	runnerName := fmt.Sprintf("%s-%s", p.config.Runner.Name, stringid.New())
 
 	leaseCtx, leaseCtxCancel, err := p.containerd.WithLease(ctx,
-		leases.WithID(fmt.Sprintf("fireactions/pools/%s/%s", p.config.Name, runnerName)), leases.WithExpiration(10*time.Hour))
+		leases.WithID(fmt.Sprintf("fireactions/pools/%s/%s", p.config.Name, runnerName)), leases.WithExpiration(24*time.Hour))
 	if err != nil {
 		return fmt.Errorf("containerd: creating lease: %w", err)
 	}
@@ -311,7 +311,6 @@ func (p *Pool) scaleUp(ctx context.Context) error {
 
 	machine.Handlers.FcInit = machine.Handlers.FcInit.Append(firecracker.NewSetMetadataHandler(metadata))
 
-	runnerCtx, runnerCtxCancel := context.WithTimeout(ctx, 6*time.Hour) // Give the VM a lease of 6 hours (the maximum GitHub Actions job runtime is 6 hours)
 	go func() {
 		_ = machine.Wait(context.Background())
 		p.logger.Debug().Msgf("Firecracker VM %s exited", runnerName)
@@ -328,11 +327,10 @@ func (p *Pool) scaleUp(ctx context.Context) error {
 Run 'ctr --namespace %s leases rm fireactions/pools/%s/%s' to remove the lease manually`, runnerName, p.config.Name, p.config.Name, runnerName)
 		}
 
-		runnerCtxCancel()
 		_ = machineLogFile.Close()
 	}()
 
-	if err := machine.Start(runnerCtx); err != nil {
+	if err := machine.Start(context.Background()); err != nil {
 		return fmt.Errorf("firecracker: starting machine: %w", err)
 	}
 
