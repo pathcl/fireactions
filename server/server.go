@@ -215,14 +215,7 @@ func (s *Server) ScalePool(ctx context.Context, id string, replicas int) error {
 		return err
 	}
 
-	err = pool.Scale(ctx, replicas)
-	if err != nil {
-		metricPoolScaleFailures.WithLabelValues(id).Inc()
-		return err
-	}
-
-	metricPoolScaleSuccesses.WithLabelValues(id).Inc()
-	return nil
+	return pool.Scale(ctx, replicas)
 }
 
 // PausePool pauses the pool with the given ID.

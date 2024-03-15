@@ -172,9 +172,11 @@ func (p *Pool) Scale(ctx context.Context, replicas int) error {
 
 	for i := curSize; i < desSize; i++ {
 		if err := p.scaleUp(ctx); err != nil {
+			metricPoolScaleFailures.WithLabelValues(p.config.Name).Inc()
 			return err
 		}
 
+		metricPoolScaleSuccesses.WithLabelValues(p.config.Name).Inc()
 		p.logger.Trace().Msgf("Pool scaled to %d", i+1)
 	}
 
