@@ -44,6 +44,7 @@ type Pool struct {
 	logger       *zerolog.Logger
 	l            *sync.Mutex
 	isActive     bool
+	t            *time.Ticker
 	stopCh       chan struct{}
 }
 
@@ -76,6 +77,7 @@ func NewPool(logger *zerolog.Logger, config *PoolConfig, github *github.Client) 
 		github:       github,
 		logger:       &l,
 		l:            &sync.Mutex{},
+		t:            time.NewTicker(1 * time.Second),
 		stopCh:       make(chan struct{}),
 	}
 
@@ -104,13 +106,12 @@ func NewPool(logger *zerolog.Logger, config *PoolConfig, github *github.Client) 
 
 // Start starts the pool. Starting the pool will start the scaling process.
 func (p *Pool) Start() {
-	t := time.NewTicker(1 * time.Second)
-	defer t.Stop()
+	defer p.t.Stop()
 	for {
 		select {
 		case <-p.stopCh:
 			return
-		case <-t.C:
+		case <-p.t.C:
 		}
 
 		metricPoolCurrentRunnersCount.WithLabelValues(p.config.Name).Set(float64(p.GetCurrentSize()))
@@ -128,10 +129,11 @@ func (p *Pool) Start() {
 
 // Stop stops the pool. Stopping the pool will stop all the VMs in the pool.
 func (p *Pool) Stop() {
+	p.stopCh <- struct{}{}
+	p.logger.Debug().Msgf("Stopping pool %s", p.config.Name)
+	p.t.Stop()
 	p.l.Lock()
 	defer p.l.Unlock()
-
-	close(p.stopCh)
 
 	for _, machine := range p.machines {
 		err := machine.StopVMM()

@@ -153,9 +153,16 @@ func (s *Server) Run(ctx context.Context) error {
 
 		s.logger.Info().Msg("Shutting down server")
 
+		wg := sync.WaitGroup{}
 		for _, pool := range s.pools {
-			pool.Stop()
+			wg.Add(1)
+			go func(pool *Pool) {
+				pool.Stop()
+				wg.Done()
+			}(pool)
 		}
+
+		wg.Wait()
 
 		cancelCtx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()
