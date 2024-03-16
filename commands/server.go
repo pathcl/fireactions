@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/hostinger/fireactions/helper/logger"
 	"github.com/hostinger/fireactions/server"
@@ -46,7 +47,7 @@ func runServerCmd(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("could not create server: %w", err)
 	}
 
-	ctx, cancel := signal.NotifyContext(cmd.Context(), os.Interrupt)
+	ctx, cancel := signal.NotifyContext(cmd.Context(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 
 	return server.Run(ctx)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/hostinger/fireactions/helper/logger"
 	"github.com/hostinger/fireactions/runner"
@@ -43,7 +44,7 @@ func runRunnerCmd(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("mmds: runner_jit_config: not found")
 	}
 
-	ctx, cancel := signal.NotifyContext(cmd.Context(), os.Interrupt)
+	ctx, cancel := signal.NotifyContext(cmd.Context(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 
 	runner := runner.New(runnerJITConfig, runner.WithLogger(logger), runner.WithStdout(os.Stdout), runner.WithStderr(os.Stderr))
