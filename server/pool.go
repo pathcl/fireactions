@@ -39,6 +39,7 @@ type Pool struct {
 	containerd   *containerd.Client
 	containerdMu *sync.Mutex
 	github       *github.Client
+	machinesMu   *sync.Mutex
 	machines     map[string]*firecracker.Machine
 	logger       *zerolog.Logger
 	l            *sync.Mutex
@@ -67,6 +68,7 @@ func NewPool(logger *zerolog.Logger, config *PoolConfig, github *github.Client) 
 
 	p := &Pool{
 		config:       config,
+		machinesMu:   &sync.Mutex{},
 		machines:     make(map[string]*firecracker.Machine),
 		isActive:     true,
 		containerd:   containerd,
@@ -142,7 +144,10 @@ func (p *Pool) Stop() {
 
 		_ = machine.Wait(ctx)
 
+		p.machinesMu.Lock()
 		delete(p.machines, machine.Cfg.VMID)
+		p.machinesMu.Unlock()
+
 		p.logger.Debug().Msgf("Forcefully stopped Firecracker VM %s", machine.Cfg.VMID)
 	}
 
@@ -315,9 +320,9 @@ func (p *Pool) scaleUp(ctx context.Context) error {
 		_ = machine.Wait(context.Background())
 		p.logger.Debug().Msgf("Firecracker VM %s exited", runnerName)
 
-		p.l.Lock()
+		p.machinesMu.Lock()
 		delete(p.machines, runnerName)
-		p.l.Unlock()
+		p.machinesMu.Unlock()
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
@@ -335,7 +340,9 @@ Run 'ctr --namespace %s leases rm fireactions/pools/%s/%s' to remove the lease m
 	}
 
 	p.logger.Debug().Msgf("Firecracker VM %s started", runnerName)
+	p.machinesMu.Lock()
 	p.machines[runnerName] = machine
+	p.machinesMu.Unlock()
 
 	return nil
 }
