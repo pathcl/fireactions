@@ -242,7 +242,7 @@ func (p *Pool) scaleUp(ctx context.Context) error {
 	runnerName := fmt.Sprintf("%s-%s", p.config.Runner.Name, stringid.New())
 
 	leaseCtx, leaseCtxCancel, err := p.containerd.WithLease(ctx,
-		leases.WithID(fmt.Sprintf("fireactions/pools/%s/%s", p.config.Name, runnerName)), leases.WithExpiration(24*time.Hour))
+		leases.WithID(fmt.Sprintf("fireactions/pools/%s/%s", p.config.Name, runnerName)))
 	if err != nil {
 		return fmt.Errorf("containerd: creating lease: %w", err)
 	}
