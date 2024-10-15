@@ -36,7 +36,6 @@ fireactions-server-1 ansible_host=<IP_ADDRESS> ansible_user=<SSH_USER>
           enabled: true
           address: 127.0.0.1:8081
         github:
-          webhook_secret: "<WEBHOOK_SECRET>"
           app_id: <APP_ID>
           app_private_key: |
             <APP_PRIVATE_KEY>
