@@ -8,7 +8,8 @@ It is the recommended way to install Fireactions. This guide will show you how t
 
 Before you begin, make sure you have the following requirements:
 
-- Ansible set up on your local machine
+- Ansible set up on local machine
+- GitHub App ID and private key, see [Creating GitHub Apps](https://docs.github.com/en/apps/creating-github-apps)
 
 ## Step 1: Create an inventory file
 
