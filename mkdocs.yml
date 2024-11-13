@@ -26,6 +26,7 @@ nav:
       - Installation: "user-guide/installation.md"
       - Running the first build: "user-guide/running-the-first-build.md"
       - Images: "user-guide/images.md"
+      - Kernels: "user-guide/kernels.md"
       - Monitoring: "user-guide/monitoring.md"
       - Troubleshooting: "user-guide/troubleshooting.md"
       - Upgrading: "user-guide/upgrading.md"

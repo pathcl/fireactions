@@ -60,17 +60,33 @@ Several key features:
       --containerd-snapshotter-device="<DEVICE>"
     ```
 
-    Replace `<DEVICE>`, `<GITHUB_APP_ID>`, and `<GITHUB_ORGANIZATION>` with the appropriate values.
+This creates a default configuration with a single pool named `default` with a single runner. See [Configuration](./docs/user-guide/configuration.md) for more information.
 
-This creates a default configuration with a single pool named `default` with a single runner. See [Configuration](./docs/user-guide/configuration.md) for more information on how to customize Fireactions.
-
-To start using self-hosted GitHub runners, add the label to your workflow jobs:
+4. Test the installation by creating a new GitHub workflow in your repository:
 
 ```yaml
-<...>
-runs-on:
-- self-hosted
-- fireactions
+# .github/workflows/test.yaml
+name: test
+
+on:
+  workflow_dispatch:
+  pull_request:
+      branches:
+      - '*'
+  push:
+      branches:
+      - main
+
+jobs:
+  test:
+    name: test
+    runs-on: # The label(s) of the Fireactions pool
+    - self-hosted
+    - fireactions
+    steps:
+    - name: Example
+      run: |
+        echo "Hello, Fireactions!"
 ```
 
 ## Contributing
