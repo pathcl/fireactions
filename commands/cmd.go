@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"context"
+
 	"github.com/hostinger/fireactions"
 	"github.com/spf13/cobra"
 )
@@ -9,8 +11,17 @@ var (
 	endpoint string
 	username string
 	password string
-	client   *fireactions.Client
+	client   fireactionsClient
 )
+
+type fireactionsClient interface {
+	ListPools(ctx context.Context, opts *fireactions.ListOptions) (fireactions.Pools, *fireactions.Response, error)
+	GetPool(ctx context.Context, name string) (*fireactions.Pool, *fireactions.Response, error)
+	PausePool(ctx context.Context, name string) (*fireactions.Response, error)
+	ResumePool(ctx context.Context, name string) (*fireactions.Response, error)
+	ScalePool(ctx context.Context, name string) (*fireactions.Response, error)
+	Reload(ctx context.Context) (*fireactions.Response, error)
+}
 
 // New returns a new root-level command.
 func New() *cobra.Command {
