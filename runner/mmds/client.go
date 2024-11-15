@@ -61,7 +61,7 @@ func (c *Client) GetMetadata(ctx context.Context, path string) (map[string]inter
 		path = "/" + path
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("%s/latest/meta-data/%s", defaultMMDSAddress, path), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("%s/latest/meta-data%s", defaultMMDSAddress, path), nil)
 	if err != nil {
 		return nil, err
 	}
