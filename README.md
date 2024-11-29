@@ -44,8 +44,8 @@ Several key features:
 
 Create and install a GitHub App (see [Creating a GitHub App](https://docs.github.com/en/developers/apps/creating-a-github-app)) with the following permissions:
 
-    - Read access to metadata
-    - Read and write access to actions and organization self hosted runners
+- Read access to metadata
+- Read and write access to actions and organization self hosted runners
 
 Note down the GitHub App ID and generate a private key, save it to a file on the host machine, e.g. `/root/private-key.pem`.
 
