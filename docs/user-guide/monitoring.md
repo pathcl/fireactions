@@ -24,4 +24,4 @@ The following metrics are available, excluding the default Prometheus metrics:
 
 Example Grafana dashboard for vizualisation of Fireactions metrics:
 
-![Grafana Dashboard](../images/grafana-dashboard.png)
+![Grafana Dashboard](../img/grafana-dashboard.png)

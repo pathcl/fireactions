@@ -1,4 +1,4 @@
-site_name: Fireactions
+site_name: "Fireactions"
 repo_name: "hostinger/fireactions"
 repo_url: https://github.com/hostinger/fireactions
 site_url: https://hostinger.github.io/fireactions/
@@ -6,15 +6,18 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
-  logo: logo.png
+  logo: img/banner_white.png
   features:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.instant
     - navigation.sections
   palette:
-    primary: red
+    primary: violet
   include_sidebar: true
+
+extra_css:
+  - css/extra.css
 
 nav:
   - Home:

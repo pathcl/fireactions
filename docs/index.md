@@ -1,4 +1,4 @@
-![Banner](banner.png)
+![Banner](./img/banner_violet.png)
 
 Fireactions is an orchestrator for GitHub runners. BYOM (Bring Your Own Metal) and run self-hosted GitHub runners in ephemeral, fast and secure [Firecracker](https://firecracker-microvm.github.io/) based virtual machines.
 
@@ -22,7 +22,7 @@ sequenceDiagram
     end
     GitHub->>Fireactions: Scale pool on workflow_job event
 -->
-![Architecture](architecture.png)
+![Architecture](./img/architecture.png)
 
 Several key features:
 

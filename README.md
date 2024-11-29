@@ -1,8 +1,8 @@
-[![test](https://github.com/hostinger/fireactions/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/hostinger/fireactions/actions/workflows/test.yaml)
+# Fireactions
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/hostinger/fireactions)](https://goreportcard.com/report/github.com/hostinger/fireactions)
 
-
-![Banner](docs/banner.png)
+![Banner](docs/img/banner_violet.png)
 
 Fireactions is an orchestrator for GitHub runners. BYOM (Bring Your Own Metal) and run self-hosted GitHub runners in ephemeral, fast and secure [Firecracker](https://firecracker-microvm.github.io/) based virtual machines.
 
@@ -26,13 +26,13 @@ sequenceDiagram
     end
     GitHub->>Fireactions: Scale pool on workflow_job event
 -->
-![Architecture](docs/architecture.png)
+![Architecture](docs/img/architecture.png)
 
 Several key features:
 
-- **Autoscaling**
+- **Scalable**
 
-  Robust pool based scaling, cost-effective with fast GitHub runner startup time of 20s~.
+  Pool based scaling approach. Fireactions always ensures the minimum amount of GitHub runners in the pool.
 
 - **Ephemeral**
 
@@ -40,17 +40,18 @@ Several key features:
 
 - **Customizable**
 
-  Define job labels and customize virtual machine resources to fit Your needs. See [Configuration](./docs/user-guide/configuration.md) for more information.
+  Define job labels and customize virtual machine resources to fit Your needs.
 
 ## Quickstart
 
-1. Create and install a GitHub App (see [Creating a GitHub App](https://docs.github.com/en/developers/apps/creating-a-github-app)) with the following permissions:
+Create and install a GitHub App (see [Creating a GitHub App](https://docs.github.com/en/developers/apps/creating-a-github-app)) with the following permissions:
 
     - Read access to metadata
     - Read and write access to actions and organization self hosted runners
 
-2. Note down the GitHub App ID and generate a private key, save it to a file on the host machine, e.g. `/root/private-key.pem`.
-3. Download and run the installation script:
+Note down the GitHub App ID and generate a private key, save it to a file on the host machine, e.g. `/root/private-key.pem`.
+
+Download and run the installation script:
 
     ```bash
     curl -sSL https://raw.githubusercontent.com/hostinger/fireactions/main/install.sh -o install.sh
@@ -64,7 +65,7 @@ Several key features:
 
 This creates a default configuration with a single pool named `default` with a single runner. See [Configuration](./docs/user-guide/configuration.md) for more information.
 
-4. Test the installation by creating a new GitHub workflow in your repository:
+Test the installation by creating a new GitHub workflow in your repository:
 
 ```yaml
 # .github/workflows/test.yaml
