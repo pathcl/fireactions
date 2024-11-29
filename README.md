@@ -1,5 +1,3 @@
-# Fireactions
-
 [![Go Report Card](https://goreportcard.com/badge/github.com/hostinger/fireactions)](https://goreportcard.com/report/github.com/hostinger/fireactions)
 
 ![Banner](docs/img/banner_violet.png)
