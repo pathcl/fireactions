@@ -53,15 +53,26 @@ Note down the GitHub App ID and generate a private key, save it to a file on the
 
 Download and run the installation script:
 
-    ```bash
-    curl -sSL https://raw.githubusercontent.com/hostinger/fireactions/main/install.sh -o install.sh
-    chmod +x install.sh
-    ./install.sh \
-      --github-app-id=<GITHUB_APP_ID> \
-      --github-app-key-file="/root/private-key.pem" \
-      --github-organization="<GITHUB_ORGANIZATION>"
-      --containerd-snapshotter-device="<DEVICE>"
-    ```
+```bash
+curl -sSL https://raw.githubusercontent.com/hostinger/fireactions/main/install.sh -o install.sh
+chmod +x install.sh
+./install.sh --help
+This script installs Fireactions on a Linux machine.
+
+Usage: ./install.sh [options]
+
+Options:
+  --github-app-id                     Sepcify the ID of the GitHub App                          (required)
+  --github-app-key-file               Specify the path to the GitHub App private key file       (required)
+  --github-organization               Specify the name of the GitHub organization               (required)
+  --fireactions-version               Specify the Fireactions version to install                (default: 0.2.5)
+  --firecracker-version               Specify the Firecracker version to install                (default: 1.4.1)
+  --kernel-version                    Specify the kernel version to install                     (default: 5.10)
+  --containerd-snapshotter-device     Specify the device to use for Containerd snapshot storage (required)
+  --containerd-version                Specify the Containerd version to install                 (default: 1.7.0)
+  --cni-version                       Specify the CNI plugin version to install                 (default: 1.6.0)
+  -h, --help                          Show this help message
+```
 
 This creates a default configuration with a single pool named `default` with a single runner. See [Configuration](./docs/user-guide/configuration.md) for more information.
 
